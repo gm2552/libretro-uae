@@ -1,3 +1,8 @@
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+#include <sys/mman.h>
+
 #include "libretro.h"
 #include "retrodep/retroglue.h"
 #include "libretro-mapper.h"
@@ -43,6 +48,7 @@ extern int diwlastword_total;
 extern int diwfirstword_total;
 extern int interlace_seen;
 extern int m68k_go(int may_quit, int resume);
+int cp(const char *to, const char *from);
 
 int defaultw = EMULATOR_DEF_WIDTH;
 int defaulth = EMULATOR_DEF_HEIGHT;
@@ -1306,12 +1312,13 @@ static void update_variables(void)
 
    static int video_config_region = 0;
 
-   var.key = "puae_model";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      _tcscpy(opt_model, var.value);
-   }
+   //var.key = "puae_model";
+   //var.value = NULL;
+   const char* model = "auto";
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //{
+      _tcscpy(opt_model, model);
+   //}
 
    var.key = "puae_video_standard";
    var.value = NULL;
@@ -2711,9 +2718,18 @@ static struct retro_disk_control_ext_callback disk_interface_ext = {
 // Init
 void retro_init(void)
 {
+   fprintf(stdout, "[libretro.c] retro_init: Initializing core.\n");
+
+   path_mkdir("/tmp/amiga/WHDLoad");
+
    libretro_runloop_active = 0;
 
-   const char *system_dir = NULL;
+   const char *system_dir = "/tmp";
+   strlcpy(
+            retro_system_directory,
+            system_dir,
+            sizeof(retro_system_directory));   
+   /*
    if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &system_dir) && system_dir)
    {
       // if defined, use the system directory
@@ -2722,7 +2738,8 @@ void retro_init(void)
             system_dir,
             sizeof(retro_system_directory));
    }
-
+   */
+   
    const char *content_dir = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_CONTENT_DIRECTORY, &content_dir) && content_dir)
    {
@@ -2733,7 +2750,12 @@ void retro_init(void)
             sizeof(retro_content_directory));
    }
 
-   const char *save_dir = NULL;
+   const char *save_dir = "/tmp/amiga";
+   strlcpy(
+            retro_save_directory,
+            string_is_empty(save_dir) ? retro_system_directory : save_dir,
+            sizeof(retro_save_directory));   
+   /*
    if (environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &save_dir) && save_dir)
    {
       // If save directory is defined use it, otherwise use system directory
@@ -2750,11 +2772,12 @@ void retro_init(void)
             retro_system_directory,
             sizeof(retro_save_directory));
    }
-
+   */
    //printf("Retro SYSTEM_DIRECTORY %s\n",retro_system_directory);
    //printf("Retro SAVE_DIRECTORY %s\n",retro_save_directory);
    //printf("Retro CONTENT_DIRECTORY %s\n",retro_content_directory);
 
+   fprintf(stdout, "[libretro.c] retro_init: Creating disk controller interface.\n");
    // Disk control interface
    retro_dc = dc_create();
 
@@ -2826,7 +2849,11 @@ void retro_init(void)
 
    memset(retro_bmp, 0, sizeof(retro_bmp));
 
+   fprintf(stdout, "[libretro.c] retro_init: Updating variables.\n");
+
    update_variables();
+   
+   fprintf(stdout, "[libretro.c] retro_init: Initialization complete.\n");
 }
 
 static void remove_recurse(const char *path)
@@ -2864,6 +2891,12 @@ void retro_deinit(void)
    // Clean ZIP temp
    if (retro_temp_directory && path_is_directory(retro_temp_directory))
       remove_recurse(retro_temp_directory);
+   
+   // Clean up WHDLoad and Kickstart files
+   remove_recurse("/tmp/amiga");
+   remove("/tmp/kick40068.A1200");  
+   remove("/tmp/WHDLoad.zip"); 
+   
 }
 
 unsigned retro_api_version(void)
@@ -3662,8 +3695,8 @@ bool retro_create_config()
                   {
                      // A600 required for a hard disk
                      uae_machine[0] = '\0';
-                     strcat(uae_machine, A600_CONFIG);
-                     strcpy(uae_kickstart, A600_ROM);
+                     strcat(uae_machine, A1200_CONFIG);
+                     strcpy(uae_kickstart, A1200_ROM);
                   }
                   else
                   {
@@ -3674,15 +3707,15 @@ bool retro_create_config()
                         || path_is_directory(full_path))
                      {
                         uae_machine[0] = '\0';
-                        strcat(uae_machine, A600_CONFIG);
-                        strcpy(uae_kickstart, A600_ROM);
+                        strcat(uae_machine, A1200_CONFIG);
+                        strcpy(uae_kickstart, A1200_ROM);
                      }
                      // Floppy disk defaults to A500
                      else
                      {
                         uae_machine[0] = '\0';
-                        strcat(uae_machine, A500_CONFIG);
-                        strcpy(uae_kickstart, A500_ROM);
+                        strcat(uae_machine, A1200_CONFIG);
+                        strcpy(uae_kickstart, A1200_ROM);
                      }
                   }
                }
@@ -3715,6 +3748,7 @@ bool retro_create_config()
             }
 
             // Verify Kickstart
+            /*
             if (!file_exists(kickstart))
             {
                // Kickstart ROM not found
@@ -3722,7 +3756,7 @@ bool retro_create_config()
                fclose(configfile);
                return false;
             }
-
+            */
             fprintf(configfile, "kickstart_rom_file=%s\n", (const char*)&kickstart);
 
             // Bootable HD exception
@@ -3865,6 +3899,7 @@ bool retro_create_config()
 
                            // Extract ZIP
                            zip_uncompress(whdload_files_zip, whdload_path);
+                           cp("/tmp/kick40068.A1200", "/tmp/amiga/WHDLoad/Devs/Kickstarts/kick40068.A1200");
                            remove(whdload_files_zip);
                         }
                         else
@@ -4223,6 +4258,7 @@ bool retro_create_config()
             }
 
             // Verify Kickstart
+            /*
             if (!file_exists(kickstart))
             {
                // Kickstart ROM not found
@@ -4231,6 +4267,7 @@ bool retro_create_config()
                return false;
             }
             else
+            */
                fprintf(configfile, "kickstart_rom_file=%s\n", (const char*)&kickstart);
 
             // Decide if CD32 ROM is combined based on filesize
@@ -4422,6 +4459,7 @@ bool retro_create_config()
             path_join((char*)&kickstart_ext, retro_system_directory, uae_kickstart_ext);
 
             // Verify kickstart
+            /*
             if (!file_exists(kickstart))
             {
                // Kickstart ROM not found
@@ -4430,6 +4468,7 @@ bool retro_create_config()
                return false;
             }
             else
+            */
                fprintf(configfile, "kickstart_rom_file=%s\n", (const char*)&kickstart);
 
             // Decide if CD32 ROM is combined based on filesize
@@ -4460,6 +4499,7 @@ bool retro_create_config()
          else
          {
             // Verify Kickstart
+            /*
             if (!file_exists(kickstart))
             {
                // Kickstart ROM not found
@@ -4468,6 +4508,7 @@ bool retro_create_config()
                return false;
             }
             else
+            */
                fprintf(configfile, "kickstart_rom_file=%s\n", (const char*)&kickstart);
          }
 
@@ -4989,6 +5030,65 @@ void retro_cheat_set(unsigned index, bool enabled, const char *code)
    (void)code;
 }
 
+int cp(const char *to, const char *from)
+{
+    int fd_to, fd_from;
+    char buf[4096];
+    ssize_t nread;
+    int saved_errno;
+
+    fd_from = open(from, O_RDONLY);
+    if (fd_from < 0)
+        return -1;
+
+    fd_to = open(to, O_WRONLY | O_CREAT | O_EXCL, 0666);
+    if (fd_to < 0)
+        goto out_error;
+
+    while (nread = read(fd_from, buf, sizeof buf), nread > 0)
+    {
+        char *out_ptr = buf;
+        ssize_t nwritten;
+
+        do {
+            nwritten = write(fd_to, out_ptr, nread);
+
+            if (nwritten >= 0)
+            {
+                nread -= nwritten;
+                out_ptr += nwritten;
+            }
+            else if (errno != EINTR)
+            {
+                goto out_error;
+            }
+        } while (nread > 0);
+    }
+
+    if (nread == 0)
+    {
+        if (close(fd_to) < 0)
+        {
+            fd_to = -1;
+            goto out_error;
+        }
+        close(fd_from);
+
+        /* Success! */
+        return 0;
+    }
+
+  out_error:
+    saved_errno = errno;
+
+    close(fd_from);
+    if (fd_to >= 0)
+        close(fd_to);
+
+    errno = saved_errno;
+    return -1;
+}
+
 #if defined(ANDROID) || defined(__SWITCH__) || defined(WIIU)
 #include <sys/timeb.h>
 
@@ -5014,3 +5114,4 @@ int ftime(struct timeb *tb)
     return 0;
 }
 #endif
+

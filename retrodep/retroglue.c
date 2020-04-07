@@ -877,7 +877,8 @@ void zip_uncompress(char *in, char *out)
 
             write_filename = filename_withpath;
 
-            err = unzOpenCurrentFilePassword(uf, password);
+            //err = unzOpenCurrentFilePassword(uf, password);
+            err = unzOpenCurrentFile(uf);
             if (err != UNZ_OK)
             {
                 fprintf(stderr, "Unzip: Error %d with zipfile in unzOpenCurrentFilePassword: %s\n", err, write_filename);
