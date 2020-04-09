@@ -1322,7 +1322,8 @@ static void update_variables(void)
 
    var.key = "puae_video_standard";
    var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   var.value = "NTSC";
    {
       /* video_config change only at start */
       if (video_config_old == 0)
@@ -1366,9 +1367,11 @@ static void update_variables(void)
       else if (strcmp(var.value, "disabled") == 0) video_config_allow_hz_change = 0;
    }
 
-   var.key = "puae_video_resolution";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //var.key = "puae_video_resolution";
+   //var.value = NULL;
+   
+   var.value= "lores";
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       opt_video_resolution_auto = false;
 
@@ -2408,6 +2411,9 @@ static void update_variables(void)
    option_display.key = "puae_vkbd_alpha";
    environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &option_display);
 
+   //video_config = PUAE_VIDEO_PAL_HI_DL;
+   fprintf(stdout, "Video config: %d\n", video_config);
+   
    /* Setting resolution */
    switch (video_config)
    {
@@ -2895,6 +2901,7 @@ void retro_deinit(void)
    // Clean up WHDLoad and Kickstart files
    remove_recurse("/tmp/amiga");
    remove("/tmp/kick40068.A1200");  
+   remove("/tmp/kick34005.A500");
    remove("/tmp/WHDLoad.zip"); 
    
 }
@@ -3890,6 +3897,9 @@ bool retro_create_config()
                         char whdload_files_zip[RETRO_PATH_MAX];
                         path_join((char*)&whdload_files_zip, retro_save_directory, "WHDLoad_files.zip");
 
+                        fprintf(stdout, "[libretro.c]: Exploding WHDLoad_files.zip\n");
+                        fflush(stdout);
+                        fsync(fileno(stdout));
                         FILE *whdload_files_zip_fp;
                         if (whdload_files_zip_fp = fopen(whdload_files_zip, "wb"))
                         {
@@ -3900,7 +3910,12 @@ bool retro_create_config()
                            // Extract ZIP
                            zip_uncompress(whdload_files_zip, whdload_path);
                            cp("/tmp/kick40068.A1200", "/tmp/amiga/WHDLoad/Devs/Kickstarts/kick40068.A1200");
+                           cp("/tmp/kick40068.A1200", "/tmp/amiga/WHDLoad/Devs/Kickstarts/kick34005.A500");
                            remove(whdload_files_zip);
+                           
+                           fprintf(stdout, "[libretro.c]: Done exploding WHDLoad_files.zip\n");
+                           fflush(stdout);
+                           fsync(fileno(stdout));
                         }
                         else
                            fprintf(stderr, "Error extracting WHDLoad directory '%s'!\n", (const char*)&whdload_path);
