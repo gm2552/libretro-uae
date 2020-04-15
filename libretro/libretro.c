@@ -1524,9 +1524,10 @@ static void update_variables(void)
       opt_vkbd_alpha = 255 - (255 * atoi(var.value) / 100);
    }
 
-   var.key = "puae_cpu_compatibility";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //var.key = "puae_cpu_compatibility";
+   //var.value = NULL;
+   var.value = "compatible";
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       fprintf(stdout, "[libretro.c] update_variables: puae_cpu_compatibility value: %s\n", var.value);
    
@@ -1599,8 +1600,9 @@ static void update_variables(void)
    }
 
    var.key = "puae_sound_output";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //var.value = NULL;
+   var.value = "normal";
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       fprintf(stdout, "[libretro.c] update_variables: puae_sound_output value: %s\n", var.value);
    
@@ -1634,9 +1636,10 @@ static void update_variables(void)
          changed_prefs.sound_stereo_separation=val;
    }
 
-   var.key = "puae_sound_interpol";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //var.key = "puae_sound_interpol";
+   //var.value = NULL;
+   var.value = "anti";
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       fprintf(stdout, "[libretro.c] update_variables: puae_sound_interpol value: %s\n", var.value);
    
@@ -1655,8 +1658,9 @@ static void update_variables(void)
    }
 
    var.key = "puae_sound_filter";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //var.value = NULL;   
+   var.value = "emulated";
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       fprintf(stdout, "[libretro.c] update_variables: puae_sound_filter value: %s\n", var.value);
    
@@ -1673,8 +1677,9 @@ static void update_variables(void)
    }
 
    var.key = "puae_sound_filter_type";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //var.value = NULL;
+   var.value = "standard";
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       fprintf(stdout, "[libretro.c] update_variables: puae_sound_filter_type value: %s\n", var.value);
    
@@ -1700,8 +1705,9 @@ static void update_variables(void)
    }
 
    var.key = "puae_sound_volume_cd";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //var.value = NULL;
+   var.value = "100%";
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       fprintf(stdout, "[libretro.c] update_variables: puae_sound_volume_cd value: %s\n", var.value);
    
@@ -4031,7 +4037,7 @@ bool retro_create_config()
                            // Extract ZIP
                            zip_uncompress(whdload_files_zip, whdload_path);
                            cp("/tmp/kick40068.A1200", "/tmp/amiga/WHDLoad/Devs/Kickstarts/kick40068.A1200");
-                           cp("/tmp/kick40068.A1200", "/tmp/amiga/WHDLoad/Devs/Kickstarts/kick34005.A500");
+                           cp("/tmp/kick34005.A500", "/tmp/amiga/WHDLoad/Devs/Kickstarts/kick34005.A500");
                            remove(whdload_files_zip);
                            
                            fprintf(stdout, "[libretro.c]: Done exploding WHDLoad_files.zip\n");
