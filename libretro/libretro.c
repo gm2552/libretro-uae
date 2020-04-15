@@ -1324,6 +1324,7 @@ static void update_variables(void)
    var.value = NULL;
    //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    var.value = "NTSC";
+   fprintf(stdout, "[libretro.c] update_variables: puae_video_standard value: %s\n", var.value);
    {
       /* video_config change only at start */
       if (video_config_old == 0)
@@ -1354,6 +1355,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_video_aspect value: %s\n", var.value);
+   
       if (strcmp(var.value, "PAL") == 0) video_config_aspect = PUAE_VIDEO_PAL;
       else if (strcmp(var.value, "NTSC") == 0) video_config_aspect = PUAE_VIDEO_NTSC;
       else video_config_aspect = 0;
@@ -1363,6 +1366,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_video_allow_hz_change value: %s\n", var.value);
       if (strcmp(var.value, "enabled") == 0) video_config_allow_hz_change = 1;
       else if (strcmp(var.value, "disabled") == 0) video_config_allow_hz_change = 0;
    }
@@ -1373,6 +1377,7 @@ static void update_variables(void)
    var.value= "lores";
    //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_video_resolution value: %s\n", var.value);
       opt_video_resolution_auto = false;
 
       if (strcmp(var.value, "lores") == 0)
@@ -1430,6 +1435,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_video_vresolution value: %s\n", var.value);
+   
       opt_video_vresolution_auto = false;
 
       if (strcmp(var.value, "double") == 0)
@@ -1479,6 +1486,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_statusbar value: %s\n", var.value);
+   
       if (strstr(var.value, "top"))
          opt_statusbar_position = -1;
       else if (strstr(var.value, "bottom"))
@@ -1501,6 +1510,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_vkbd_theme value: %s\n", var.value);
+   
       opt_vkbd_theme = atoi(var.value);
    }
 
@@ -1508,6 +1519,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_vkbd_alpha value: %s\n", var.value);
+   
       opt_vkbd_alpha = 255 - (255 * atoi(var.value) / 100);
    }
 
@@ -1515,6 +1528,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_cpu_compatibility value: %s\n", var.value);
+   
       if (strcmp(var.value, "normal") == 0)
       {
          strcat(uae_config, "cpu_compatible=false\n");
@@ -1558,6 +1573,9 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_cpu_throttle value: %s\n", var.value);
+   
+   
       strcat(uae_config, "cpu_throttle=");
       strcat(uae_config, var.value);
       strcat(uae_config, "\n");
@@ -1570,6 +1588,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_cpu_multiplier value: %s\n", var.value);
+   
       strcat(uae_config, "cpu_multiplier=");
       strcat(uae_config, var.value);
       strcat(uae_config, "\n");
@@ -1582,6 +1602,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_sound_output value: %s\n", var.value);
+   
       strcat(uae_config, "sound_output=");
       strcat(uae_config, var.value);
       strcat(uae_config, "\n");
@@ -1599,6 +1621,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_sound_stereo_separation value: %s\n", var.value);
+   
       int val = atoi(var.value) / 10;
       char valbuf[10];
       snprintf(valbuf, 10, "%d", val);
@@ -1614,6 +1638,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_sound_interpol value: %s\n", var.value);
+   
       strcat(uae_config, "sound_interpol=");
       strcat(uae_config, var.value);
       strcat(uae_config, "\n");
@@ -1632,6 +1658,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_sound_filter value: %s\n", var.value);
+   
       strcat(uae_config, "sound_filter=");
       strcat(uae_config, var.value);
       strcat(uae_config, "\n");
@@ -1648,6 +1676,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_sound_filter_type value: %s\n", var.value);
+   
       if (strcmp(var.value, "auto"))
       {
          strcat(uae_config, "sound_filter_type=");
@@ -1673,6 +1703,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_sound_volume_cd value: %s\n", var.value);
+   
       /* 100 is mute, 0 is max */
       int val = 100 - atoi(var.value);
       char valbuf[10];
@@ -1689,6 +1721,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_cd_speed value: %s\n", var.value);
+   
       strcat(uae_config, "cd_speed=");
       strcat(uae_config, var.value);
       strcat(uae_config, "\n");
@@ -1701,6 +1735,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_floppy_speed value: %s\n", var.value);
+   
       strcat(uae_config, "floppy_speed=");
       strcat(uae_config, var.value);
       strcat(uae_config, "\n");
@@ -1713,6 +1749,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_floppy_sound value: %s\n", var.value);
+   
       /* Sound is enabled by default if files are found, so this needs to be set always */
       /* 100 is mute, 0 is max */
       strcat(uae_config, "floppy_volume=");
@@ -1728,6 +1766,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_floppy_sound_type value: %s\n", var.value);
+   
       if (strcmp(var.value, "internal") == 0)
       {
          strcat(uae_config, "floppy0sound=1\n");
@@ -1778,6 +1818,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mouse_speed value: %s\n", var.value);
+      
       strcat(uae_config, "input.mouse_speed=");
       strcat(uae_config, var.value);
       strcat(uae_config, "\n");
@@ -1794,6 +1836,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_immediate_blits value: %s\n", var.value);
+   
       if (strcmp(var.value, "false") == 0)
       {
          strcat(uae_config, "immediate_blits=false\n");
@@ -1834,6 +1878,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_collision_level value: %s\n", var.value);
+   
       strcat(uae_config, "collision_level=");
       strcat(uae_config, var.value);
       strcat(uae_config, "\n");
@@ -1851,6 +1897,9 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+   
+      fprintf(stdout, "[libretro.c] update_variables: puae_gfx_framerate value: %s\n", var.value);
+   
       int val;
       if (strcmp(var.value, "disabled") == 0) val=1;
       else if (strcmp(var.value, "1") == 0) val=2;
@@ -1873,6 +1922,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_gfx_colors value: %s\n", var.value);
+   
       // Only allow screenmode change after restart
       if (!pix_bytes_initialized)
       {
@@ -1885,6 +1936,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_zoom_mode value: %s\n", var.value);
+   
       if (strcmp(var.value, "none") == 0) zoom_mode_id=0;
       else if (strcmp(var.value, "minimum") == 0) zoom_mode_id=1;
       else if (strcmp(var.value, "smaller") == 0) zoom_mode_id=2;
@@ -1902,6 +1955,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_vertical_pos value: %s\n", var.value);
+   
       opt_vertical_offset = 0;
       if (strcmp(var.value, "auto") == 0)
       {
@@ -1925,6 +1980,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_horizontal_pos value: %s\n", var.value);
+   
       opt_horizontal_offset = 0;
       if (strcmp(var.value, "auto") == 0)
       {
@@ -1951,6 +2008,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_use_whdload value: %s\n", var.value);
+   
       if (strcmp(var.value, "disabled") == 0) opt_use_whdload=0;
       else if (strcmp(var.value, "files") == 0) opt_use_whdload=1;
       else if (strcmp(var.value, "hdfs") == 0) opt_use_whdload=2;
@@ -1960,6 +2019,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_use_whdload_prefs value: %s\n", var.value);
+   
       if (strcmp(var.value, "disabled") == 0) opt_use_whdload_prefs=0;
       else if (strcmp(var.value, "config") == 0) opt_use_whdload_prefs=1;
       else if (strcmp(var.value, "splash") == 0) opt_use_whdload_prefs=2;
@@ -1970,6 +2031,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_shared_nvram value: %s\n", var.value);
+   
       if (strcmp(var.value, "enabled") == 0) opt_shared_nvram=true;
       else if (strcmp(var.value, "disabled") == 0) opt_shared_nvram=false;
    }
@@ -1978,6 +2041,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_use_boot_hd value: %s\n", var.value);
+    
       if (strcmp(var.value, "disabled") == 0) opt_use_boot_hd=0;
       else if (strcmp(var.value, "files") == 0) opt_use_boot_hd=1;
       else if (strcmp(var.value, "hdf20") == 0) opt_use_boot_hd=2;
@@ -1992,6 +2057,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_analogmouse value: %s\n", var.value);
+   
       if (strcmp(var.value, "disabled") == 0) opt_analogmouse=0;
       else if (strcmp(var.value, "left") == 0) opt_analogmouse=1;
       else if (strcmp(var.value, "right") == 0) opt_analogmouse=2;
@@ -2002,6 +2069,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_analogmouse_deadzone value: %s\n", var.value);
+   
       opt_analogmouse_deadzone = atoi(var.value);
    }
 
@@ -2009,6 +2078,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_analogmouse_speed value: %s\n", var.value);
+   
       opt_analogmouse_speed = atof(var.value);
    }
 
@@ -2016,6 +2087,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_dpadmouse_speed value: %s\n", var.value);
+   
       opt_dpadmouse_speed = atoi(var.value);
    }
 
@@ -2023,6 +2096,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_multimouse value: %s\n", var.value);
+   
       if (strcmp(var.value, "disabled") == 0) opt_multimouse=false;
       else if (strcmp(var.value, "enabled") == 0) opt_multimouse=true;
    }
@@ -2031,6 +2106,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_keyrah_keypad_mappings value: %s\n", var.value);
+   
       if (strcmp(var.value, "disabled") == 0) opt_keyrahkeypad=false;
       else if (strcmp(var.value, "enabled") == 0) opt_keyrahkeypad=true;
    }
@@ -2039,6 +2116,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_physical_keyboard_pass_through value: %s\n", var.value);
+   
       if (strcmp(var.value, "disabled") == 0) opt_keyboard_pass_through=false;
       else if (strcmp(var.value, "enabled") == 0) opt_keyboard_pass_through=true;
    }
@@ -2047,6 +2126,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapping_options_display value: %s\n", var.value);
+   
       if (strcmp(var.value, "disabled") == 0) opt_mapping_options_display=0;
       else if (strcmp(var.value, "enabled") == 0) opt_mapping_options_display=1;
    }
@@ -2055,6 +2136,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_video_options_display value: %s\n", var.value);
+   
       if (strcmp(var.value, "disabled") == 0) opt_video_options_display=0;
       else if (strcmp(var.value, "enabled") == 0) opt_video_options_display=1;
    }
@@ -2063,6 +2146,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_audio_options_display value: %s\n", var.value);
+     
       if (strcmp(var.value, "disabled") == 0) opt_audio_options_display=0;
       else if (strcmp(var.value, "enabled") == 0) opt_audio_options_display=1;
    }
@@ -2071,6 +2156,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_retropad_options value: %s\n", var.value);
+   
       if (strcmp(var.value, "disabled") == 0) opt_retropad_options=0;
       else if (strcmp(var.value, "rotate") == 0) opt_retropad_options=1;
       else if (strcmp(var.value, "jump") == 0) opt_retropad_options=2;
@@ -2081,6 +2168,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_cd32pad_options value: %s\n", var.value);
+   
       if (strcmp(var.value, "disabled") == 0) opt_cd32pad_options=0;
       else if (strcmp(var.value, "rotate") == 0) opt_cd32pad_options=1;
       else if (strcmp(var.value, "jump") == 0) opt_cd32pad_options=2;
@@ -2091,6 +2180,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_turbo_fire_button value: %s\n", var.value);
+   
       if (strcmp(var.value, "disabled") == 0) turbo_fire_button=-1;
       else if (strcmp(var.value, "A") == 0) turbo_fire_button=RETRO_DEVICE_ID_JOYPAD_A;
       else if (strcmp(var.value, "Y") == 0) turbo_fire_button=RETRO_DEVICE_ID_JOYPAD_Y;
@@ -2107,6 +2198,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_turbo_pulse value: %s\n", var.value);
+   
       if (strcmp(var.value, "2") == 0) turbo_pulse=2;
       else if (strcmp(var.value, "4") == 0) turbo_pulse=4;
       else if (strcmp(var.value, "6") == 0) turbo_pulse=6;
@@ -2120,6 +2213,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_select value: %s\n", var.value);
+   
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_SELECT] = keyId(var.value);
    }
 
@@ -2127,6 +2222,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_start value: %s\n", var.value);
+   
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_START] = keyId(var.value);
    }
 
@@ -2134,6 +2231,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_b value: %s\n", var.value);
+   
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_B] = keyId(var.value);
    }
 
@@ -2141,6 +2240,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_a value: %s\n", var.value);
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_A] = keyId(var.value);
    }
 
@@ -2148,6 +2248,8 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_y value: %s\n", var.value);
+   
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_Y] = keyId(var.value);
    }
 
@@ -2155,6 +2257,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_x value: %s\n", var.value);
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_X] = keyId(var.value);
    }
 
@@ -2162,6 +2265,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_l value: %s\n", var.value);
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_L] = keyId(var.value);
    }
 
@@ -2169,6 +2273,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_r value: %s\n", var.value);
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_R] = keyId(var.value);
    }
 
@@ -2176,6 +2281,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_l2 value: %s\n", var.value);
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_L2] = keyId(var.value);
    }
 
@@ -2183,6 +2289,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_r2 value: %s\n", var.value);
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_R2] = keyId(var.value);
    }
 
@@ -2190,6 +2297,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_l3 value: %s\n", var.value);
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_L3] = keyId(var.value);
    }
 
@@ -2197,6 +2305,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_r3 value: %s\n", var.value);
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_R3] = keyId(var.value);
    }
 
@@ -2204,6 +2313,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_lr value: %s\n", var.value);
       mapper_keys[16] = keyId(var.value);
    }
 
@@ -2211,6 +2321,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_ll value: %s\n", var.value);
       mapper_keys[17] = keyId(var.value);
    }
 
@@ -2218,6 +2329,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_ld value: %s\n", var.value);
       mapper_keys[18] = keyId(var.value);
    }
 
@@ -2225,6 +2337,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_lu value: %s\n", var.value);
       mapper_keys[19] = keyId(var.value);
    }
 
@@ -2232,6 +2345,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_rr value: %s\n", var.value);
       mapper_keys[20] = keyId(var.value);
    }
 
@@ -2239,6 +2353,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_rl value: %s\n", var.value);
       mapper_keys[21] = keyId(var.value);
    }
 
@@ -2246,6 +2361,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_rd value: %s\n", var.value);
       mapper_keys[22] = keyId(var.value);
    }
 
@@ -2253,6 +2369,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_ru value: %s\n", var.value);
       mapper_keys[23] = keyId(var.value);
    }
 
@@ -2261,6 +2378,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_vkbd value: %s\n", var.value);
       mapper_keys[24] = keyId(var.value);
    }
 
@@ -2268,13 +2386,15 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_statusbar value: %s\n", var.value);
       mapper_keys[25] = keyId(var.value);
    }
 
    var.key = "puae_mapper_mouse_toggle";
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
+   { 
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_mouse_toggle value: %s\n", var.value);
       mapper_keys[26] = keyId(var.value);
    }
 
@@ -2282,6 +2402,7 @@ static void update_variables(void)
    var.value = NULL;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+      fprintf(stdout, "[libretro.c] update_variables: puae_mapper_reset value: %s\n", var.value);
       mapper_keys[27] = keyId(var.value);
    }
 
