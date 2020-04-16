@@ -1493,12 +1493,17 @@ void update_input(int disable_physical_cursor_keys)
 
             if (just_pressed)
             {
+               fprintf(stdout, "Button %d just pressed on joypad %d\n", i, j);
+            
                jbt[j][i] = 1;
                if (mapper_keys[i] == 0) /* Unmapped, e.g. set to "---" in core options */
                   continue;
 
                if (mapper_keys[i] == mapper_keys[24]) /* Virtual keyboard */
+               {
+                  fprintf(stdout, "Triggering EMU_VKBD", i, j);
                   emu_function(EMU_VKBD);
+               }
                else if (mapper_keys[i] == mapper_keys[25]) /* Statusbar */
                   emu_function(EMU_STATUSBAR);
                else if (mapper_keys[i] == mapper_keys[26]) /* Toggle mouse control */
@@ -1536,7 +1541,10 @@ void update_input(int disable_physical_cursor_keys)
                   jflag[j][RETRO_DEVICE_ID_JOYPAD_A]=1;
                }
                else if (mapper_keys[i] == -11) /* Virtual keyboard */
+               {
+                  fprintf(stdout, "Triggering EMU_VKBD\n", i, j);
                   emu_function(EMU_VKBD);
+               }
                else if (mapper_keys[i] == -12) /* Statusbar */
                   emu_function(EMU_STATUSBAR);
                else /* Keyboard keys */

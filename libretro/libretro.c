@@ -2853,6 +2853,9 @@ void retro_init(void)
 {
    fprintf(stdout, "[libretro.c] retro_init: Initializing core.\n");
 
+   uae_devices[0] = RETRO_DEVICE_JOYPAD;
+   uae_devices[1] = RETRO_DEVICE_JOYPAD;
+
    path_mkdir("/tmp/amiga/WHDLoad");
 
    libretro_runloop_active = 0;
@@ -3040,6 +3043,7 @@ unsigned retro_api_version(void)
 
 void retro_set_controller_port_device(unsigned port, unsigned device)
 {
+   /* ALU retroplayer does not call this method, so for testing consistency with RetroArch, comment it out.
    if (port<4)
    {
       uae_devices[port] = device;
@@ -3074,11 +3078,10 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
             break;
       }
 
-      /* After startup input_get_default_joystick will need to be refreshed for cd32<>joystick change to work.
-         Doing updateconfig straight from boot will crash, hence inputdevice_finalized */
       if (inputdevice_finalized)
          inputdevice_updateconfig(NULL, &currprefs);
    }
+   */
 }
 
 void retro_get_system_info(struct retro_system_info *info)
