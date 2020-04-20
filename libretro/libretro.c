@@ -2251,8 +2251,9 @@ static void update_variables(void)
    }
 
    var.key = "puae_mapper_y";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //var.value = NULL;
+   var.value = "MOUSE_LEFT_BUTTON";
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       fprintf(stdout, "[libretro.c] update_variables: puae_mapper_y value: %s\n", var.value);
    
@@ -2260,24 +2261,27 @@ static void update_variables(void)
    }
 
    var.key = "puae_mapper_x";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //var.value = NULL;
+   var.value = "MOUSE_LEFT_BUTTON";
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       fprintf(stdout, "[libretro.c] update_variables: puae_mapper_x value: %s\n", var.value);
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_X] = keyId(var.value);
    }
 
    var.key = "puae_mapper_l";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //var.value = NULL;
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   var.value = "TOGGLE_VKBD";
    {
       fprintf(stdout, "[libretro.c] update_variables: puae_mapper_l value: %s\n", var.value);
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_L] = keyId(var.value);
    }
 
    var.key = "puae_mapper_r";
-   var.value = NULL;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   //var.value = NULL;
+   //if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   var.value = "TOGGLE_VKBD";
    {
       fprintf(stdout, "[libretro.c] update_variables: puae_mapper_r value: %s\n", var.value);
       mapper_keys[RETRO_DEVICE_ID_JOYPAD_R] = keyId(var.value);
