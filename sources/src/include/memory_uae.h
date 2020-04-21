@@ -62,11 +62,7 @@ extern uae_u32 wait_cpu_cycle_read_ce020 (uaecptr addr, int mode);
 extern void wait_cpu_cycle_write_ce020 (uaecptr addr, int mode, uae_u32 v);
 
 #undef DIRECT_MEMFUNCS_SUCCESSFUL
-//#if !defined(ANDROID) && !defined(ARM)
-//#include "machdep/maccess.h"
-//#else
-#include "machdep/maccess-generic.h"
-//#endif
+#include "machdep/maccess.h"
 
 #include "retrodep/memory_uae.h"
 
@@ -433,4 +429,3 @@ void *arm_memcpy(void *dest, const void *src, size_t n);
 #define uae4all_memcpy memcpy
 #define uae4all_memclr(p,l) memset(p, 0, l)
 #endif
-
