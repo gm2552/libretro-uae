@@ -3034,6 +3034,7 @@ void retro_deinit(void)
    
    // Clean up WHDLoad and Kickstart files
    remove_recurse("/tmp/amiga");
+   remove("/tmp/kick40068.A4000");  
    remove("/tmp/kick40068.A1200");  
    remove("/tmp/kick34005.A500");
    remove("/tmp/WHDLoad.zip"); 
@@ -3836,8 +3837,8 @@ bool retro_create_config()
                   {
                      // A600 required for a hard disk
                      uae_machine[0] = '\0';
-                     strcat(uae_machine, A1200_CONFIG);
-                     strcpy(uae_kickstart, A1200_ROM);
+                     strcat(uae_machine, A4040_CONFIG);
+                     strcpy(uae_kickstart, A4000_ROM);
                   }
                   else
                   {
@@ -3848,15 +3849,15 @@ bool retro_create_config()
                         || path_is_directory(full_path))
                      {
                         uae_machine[0] = '\0';
-                        strcat(uae_machine, A1200_CONFIG);
-                        strcpy(uae_kickstart, A1200_ROM);
+                        strcat(uae_machine, A4040_CONFIG);
+                        strcpy(uae_kickstart, A4000_ROM);
                      }
                      // Floppy disk defaults to A500
                      else
                      {
                         uae_machine[0] = '\0';
-                        strcat(uae_machine, A1200_CONFIG);
-                        strcpy(uae_kickstart, A1200_ROM);
+                        strcat(uae_machine, A4040_CONFIG);
+                        strcpy(uae_kickstart, A4000_ROM);
                      }
                   }
                }
@@ -4043,6 +4044,8 @@ bool retro_create_config()
 
                            // Extract ZIP
                            zip_uncompress(whdload_files_zip, whdload_path);
+
+                           cp("/tmp/kick40068.A4000", "/tmp/amiga/WHDLoad/Devs/Kickstarts/kick40068.A4000");
                            cp("/tmp/kick40068.A1200", "/tmp/amiga/WHDLoad/Devs/Kickstarts/kick40068.A1200");
                            cp("/tmp/kick34005.A500", "/tmp/amiga/WHDLoad/Devs/Kickstarts/kick34005.A500");
                            remove(whdload_files_zip);
